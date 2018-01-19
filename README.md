@@ -1,6 +1,6 @@
 # fpe
 
-fpe description here
+Custom flatten config object from subset of `process.env`
 
 [![Build Status][travis-image]][travis-url]
 [![NPM version][npm-image]][npm-url]
@@ -14,7 +14,37 @@ npm i fpe
 ## Usage
 
 ```js
-const fpe = require('fpe');
+const conf = require('fpe')([
+    {
+        name: 'nodeEnv',
+        key: 'NODE_ENV',
+        type: ['development', 'staging', 'production', 'testing'],
+    },
+    {
+        name: 'db.mongo',
+        key: 'MONGO_STRING',
+        type: 'string',
+    },
+]);
+console.log(conf.nodeEnv);
+console.log(conf.db.mongo); //nested object
+
+// or in 'raw' mode:
+
+const conf = require('fpe').raw([
+    {
+        name: 'nodeEnv',
+        key: 'NODE_ENV',
+        type: ['development', 'staging', 'production', 'testing'],
+    },
+    {
+        name: 'db.mongo',
+        key: 'MONGO_STRING',
+        type: 'string',
+    },
+]);
+console.log(conf.nodeEnv);
+console.log(conf['db.mongo']); //flat object in raw mode
 ```
 
 ## License
