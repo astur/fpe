@@ -1,7 +1,20 @@
 const {validKeys, unflatten} = require('ofl');
 const _ = require('easytype');
 
-const conv = (value, type) => value;
+const conv = (value, type) => {
+    type = ({
+        Array: () => ['enum', type],
+        RegExp: () => ['match', type],
+    }[_(type)] || (() => [type, null]))();
+
+    return ({
+        string: () => value,
+        number: () => +value,
+        boolean: () => !!value,
+        enum: () => type[1].includes(value) ? value : 'ENUM ERROR!',
+        match: () => type[1].test(value) ? value : 'MATCH ERROR!',
+    }[type[0] || 'string'] || (() => 'WRONG TYPE!'))();
+};
 
 const fpe = (options, raw) => {
     const result = {};
