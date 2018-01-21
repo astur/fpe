@@ -16,6 +16,8 @@
     "node": ">=8.0.0"
   },
   "dependencies": {
+    "c-e": "^1.0.1",
+    "easytype": "0.0.4",
     "ofl": "^0.2.0"
   },
   "devDependencies": {
