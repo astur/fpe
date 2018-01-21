@@ -1,4 +1,4 @@
-const {validKeys, flatten} = require('ofl');
+const {validKeys, unflatten} = require('ofl');
 
 const conv = (value, type) => value;
 
@@ -10,7 +10,7 @@ const fpe = (options, raw) => {
             result[v.name] = conv(process.env[v.key], v.type);
         }
     });
-    return raw ? result : flatten(result);
+    return raw ? result : unflatten(result);
 };
 
 module.exports = options => fpe(options, false);
