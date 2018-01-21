@@ -22,7 +22,7 @@ const conf = require('fpe')([
     },
     {
         name: 'db.mongo',
-        key: 'MONGO_STRING',
+        key: ['MONGO_STRING', 'MONGO_URI', 'MONGO_URL'],
         type: 'string',
     },
 ]);
@@ -39,7 +39,7 @@ const conf = require('fpe').raw([
     },
     {
         name: 'db.mongo',
-        key: 'MONGO_STRING',
+        key: ['MONGO_STRING', 'MONGO_URI', 'MONGO_URL'],
         type: 'string',
     },
 ]);
