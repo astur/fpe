@@ -9,8 +9,10 @@ const conv = (value, type) => {
 
     return ({
         string: () => value,
-        number: () => +value,
-        boolean: () => !!value,
+        number: () => isNaN(+value) ? 'WRONG NUMBER!' : +value,
+        boolean: () => ['true', 'ok', 'on', 'yes'].includes(value) ?
+            true : ['false', 'null', 'off', 'no'].includes(value) ?
+                false : 'WRONG BOOLEAN!',
         enum: () => type[1].includes(value) ? value : 'ENUM ERROR!',
         match: () => type[1].test(value) ? value : 'MATCH ERROR!',
     }[type[0] || 'string'] || (() => 'WRONG TYPE!'))();
