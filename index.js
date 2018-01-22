@@ -1,5 +1,11 @@
 const {validKeys, unflatten} = require('ofl');
 const _ = require('easytype');
+const ce = require('c-e');
+
+const MatchError = ce('MatchError', TypeError);
+const EnumError = ce('EnumError', TypeError);
+const NumberTypeError = ce('NumberTypeError', TypeError);
+const BooleanTypeError = ce('BooleanTypeError', TypeError);
 
 const conv = (value, type) => {
     type = ({
@@ -9,13 +15,28 @@ const conv = (value, type) => {
 
     return ({
         string: () => value,
-        number: () => isNaN(+value) ? 'WRONG NUMBER!' : +value,
-        boolean: () => ['true', 'ok', 'on', 'yes'].includes(value) ?
-            true : ['false', 'null', 'off', 'no'].includes(value) ?
-                false : 'WRONG BOOLEAN!',
-        enum: () => type[1].includes(value) ? value : 'ENUM ERROR!',
-        match: () => type[1].test(value) ? value : 'MATCH ERROR!',
-    }[type[0] || 'string'] || (() => 'WRONG TYPE!'))();
+        number: () => {
+            const v = +value;
+            if(isNaN(v)) throw new NumberTypeError(`Wrong number value: ${value}`);
+            return v;
+        },
+        boolean: () => {
+            if(['true', 'ok', 'on', 'yes'].includes(value)) return true;
+            if(['false', 'null', 'off', 'no'].includes(value)) return false;
+            throw new BooleanTypeError(`Wrong boolean value: ${value}`);
+        },
+        enum: () => {
+            if(type[1].includes(value)) return value;
+            throw new EnumError(`Invalid value: ${value}`);
+        },
+        match: () => {
+            if(type[1].test(value)) return value;
+            throw new MatchError(`Invalid value: ${value}`);
+        },
+    }[type[0] || 'string'] || (() => {
+            throw new TypeError(`Wrong type: ${type[0]}`);
+        })
+    )();
 };
 
 const fpe = (options, raw) => {
