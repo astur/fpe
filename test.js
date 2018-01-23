@@ -94,3 +94,49 @@ test('raw', t => {
         enum: 'simple',
     });
 });
+
+test('errors', t => {
+    t.throws(() => fpe([
+        {name: 'foo'},
+        {name: 'foo'},
+    ]));
+    t.throws(() => fpe([
+        {name: 'foo'},
+        {name: 'foo.bar'},
+    ]));
+    t.throws(() => fpe([
+        {
+            name: 'foo',
+            key: 'SIMPLE',
+            type: 'number',
+        },
+    ]));
+    t.throws(() => fpe([
+        {
+            name: 'foo',
+            key: 'SIMPLE',
+            type: 'boolean',
+        },
+    ]));
+    t.throws(() => fpe([
+        {
+            name: 'foo',
+            key: 'SIMPLE',
+            type: ['bar', 'baz'],
+        },
+    ]));
+    t.throws(() => fpe([
+        {
+            name: 'foo',
+            key: 'SIMPLE',
+            type: /^wrong$/,
+        },
+    ]));
+    t.throws(() => fpe([
+        {
+            name: 'foo',
+            key: 'SIMPLE',
+            type: 'wrong',
+        },
+    ]));
+});
