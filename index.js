@@ -34,9 +34,8 @@ const conv = (value, type) => {
             throw new MatchError(`Invalid value: ${value}`);
         },
     }[type[0] || 'string'] || (() => {
-            throw new TypeError(`Wrong type: ${type[0]}`);
-        })
-    )();
+        throw new TypeError(`Wrong type: ${type[0]}`);
+    }))();
 };
 
 const fpe = (options, raw) => {
