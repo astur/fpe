@@ -10,6 +10,10 @@ process.env.FALSE = 'null';
 
 const options = [
     {
+        name: 'nothing',
+        key: 'NOTHING',
+    },
+    {
         name: 'simple.single',
         key: 'SIMPLE',
     },
