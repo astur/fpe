@@ -7,11 +7,11 @@ const EnumError = ce('EnumError', TypeError);
 const NumberTypeError = ce('NumberTypeError', TypeError);
 const BooleanTypeError = ce('BooleanTypeError', TypeError);
 
-const conv = (value, type) => {
-    type = ({
-        Array: () => ['enum', type],
-        RegExp: () => ['match', type],
-    }[_(type)] || (() => [type, null]))();
+const conv = (value, _type) => {
+    const type = ({
+        Array: () => ['enum', _type],
+        RegExp: () => ['match', _type],
+    }[_(_type)] || (() => [_type, null]))();
 
     return ({
         string: () => value,
